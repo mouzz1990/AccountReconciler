@@ -1,0 +1,113 @@
+﻿<Page x:Class="AccountReconcilerLibrary.Pages.ReconcilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AccountReconcilerLibrary.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="350" d:DesignWidth="550"
+      Title="ReconcilePage" Name="pRec">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center">Reconcile</TextBlock>
+        <Border Grid.Row="1" Width="Auto" HorizontalAlignment="Right" Margin="5" BorderBrush="Gray" BorderThickness="2">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock>Unreconciled</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding UnreconciledRecords.Count}"></TextBlock>
+                    <TextBlock Margin="10,0,0,0">Records</TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button  HorizontalAlignment="Left" Margin="5" Command="{Binding CheckDublicatesCommand}">Check Dublicates</Button>
+            
+            <Button  HorizontalAlignment="Left" Margin="5" Command="{Binding RemoveDublicatesCommand}">Remove Dublicates</Button>
+        </StackPanel>
+        <DataGrid Margin="5" Grid.Row="2" FontSize="12" ItemsSource="{Binding UnreconciledRecords}" 
+                              SelectedItem="{Binding SelectedRecord, UpdateSourceTrigger=PropertyChanged}" 
+                              AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
+            
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDublicate, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsDublicate, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                            <Setter Property="Background" Value="White"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="Auto" Header="#" Binding="{Binding RecordId}"/>
+                <DataGridTextColumn Width="Auto" Header="Date" Binding="{Binding RecordDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                <DataGridTextColumn Width="Auto" Header="Bank Account" Binding="{Binding BankAccount.AccountName}"/>
+                <DataGridTextColumn  Header="Transaction Details"  Binding="{Binding RecordDetails}"/>
+                <DataGridTextColumn Width="Auto" Header="Value" Binding="{Binding RecordValue}"/>
+
+                <DataGridTemplateColumn Header="Group 1" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Name="cmbGr1" ItemsSource="{Binding Path=DataContext.Groups1, RelativeSource={RelativeSource AncestorType=Page}}"
+                                      DisplayMemberPath="GroupName"
+                                      SelectedItem="{Binding Group1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Group 2" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox   
+                                    ItemsSource="{Binding Group1.Groups2}"
+                                        DisplayMemberPath="GroupName"
+                                        SelectedItem="{Binding Group2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Add rule" Width="Auto" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}" Command="{Binding AddNewRuleCommand}">Add</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Validate" Width="Auto" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button 
+                                Command="{Binding DataContext.ValidateRuleCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding Group1}">
+                                Ok</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Remove" Width="Auto" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button 
+                                Command="{Binding DataContext.RemoveRecordCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                Content="Remove"/>
+
+                            
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+
+</Page>

@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="AccountReconcilerLibrary.DetailsSelectorSubelementControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccountReconcilerLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="350" Name="DetSubControl">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <RadioButton VerticalAlignment="Center" Content="AND" Name="rbAnd" Margin="5" Checked="rbAnd_Checked"></RadioButton>
+            <RadioButton VerticalAlignment="Center" Content="OR" Name="rbOr" Margin="5" IsChecked="True" Checked="rbOr_Checked"/>
+            <!-- Checked="rbOr_Checked"/>-->
+            <TextBox Name="txbSubValue" VerticalAlignment="Center" Width="200" Margin="5" TextChanged="txbSubValue_TextChanged"/>
+            <!-- TextChanged="txbSubValue_TextChanged"/>-->
+            <Button VerticalAlignment="Center" Width="30" Height="30" Margin="5" Click="Button_Click">-</Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

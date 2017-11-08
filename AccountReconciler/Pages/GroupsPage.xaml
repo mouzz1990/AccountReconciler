@@ -1,0 +1,69 @@
+﻿<Page x:Class="AccountReconcilerLibrary.Pages.GroupsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AccountReconcilerLibrary.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="550"
+      Title="GroupsPage">
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock HorizontalAlignment="Center" Margin="3">Groups</TextBlock>
+        <Button Grid.Row="1" Width="100" Margin="3" HorizontalAlignment="Left"
+                            Command="{Binding AddGroup1Command}"
+                            >Add Group 1</Button>
+        <!--Grid for Group 1-->
+        <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding Groups1}"
+                              SelectedItem="{Binding SelectedGroup1, UpdateSourceTrigger=PropertyChanged}"
+                              AutoGenerateColumns="False" IsReadOnly="True"
+                              >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Group 1" Binding="{Binding GroupName}"/>
+                <DataGridTextColumn Header="Description" Width="*" Binding="{Binding GroupDescription}"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding GroupType}"/>
+                <DataGridTextColumn Header="Code" Binding="{Binding GroupCode}"/>
+                <DataGridTextColumn Header="Tax" Binding="{Binding GroupTax}"/>
+                <DataGridTemplateColumn Header="Edit" Width="60" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}" Command="{Binding EditGroup1Command}">Edit</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <Button Grid.Row="3" Width="100" Margin="3" HorizontalAlignment="Left" 
+                            Command="{Binding AddGroup2Command}">
+            Add Group 2</Button>
+        <!--Grid for Group 2-->
+        <DataGrid Grid.Row="4"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding SelectedGroup1.Groups2}"
+                              SelectedItem="{Binding SelectedGroup2, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
+                              >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Group 2" Binding="{Binding GroupName}"/>
+                <DataGridTextColumn Header="Description" Width="*" Binding="{Binding GroupDescription}"/>
+                <DataGridTemplateColumn Header="Edit" Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}" Command="{Binding EditGroup2Command}">Edit</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+
+</Page>

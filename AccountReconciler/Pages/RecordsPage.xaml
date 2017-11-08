@@ -1,0 +1,45 @@
+﻿<Page x:Class="AccountReconciler.Pages.RecordsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AccountReconciler.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="550"
+      Title="RecordsPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition />
+            
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center">Records</TextBlock>
+
+        <DataGrid Margin="5" Grid.Row="2" FontSize="12" ItemsSource="{Binding ReconciledRecords}" 
+                              AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" IsReadOnly="True"
+                  SelectedItem="{Binding SelectedRecord, UpdateSourceTrigger=PropertyChanged}"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="#" Width="Auto" Binding="{Binding RecordId}"/>
+                <DataGridTextColumn Header="Date" Width="Auto" Binding="{Binding RecordDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                <DataGridTextColumn Header="Bank Account" Width="Auto" Binding="{Binding BankAccount.AccountName}"/>
+                <DataGridTextColumn Header="Group 1" Width="Auto" Binding="{Binding Group1.GroupName}"/>
+                <DataGridTextColumn Header="Group 2" Width="Auto" Binding="{Binding Group2.GroupName}"/>
+                <DataGridTextColumn Header="Transaction Details" Width="*" Binding="{Binding RecordDetails}"/>
+                <DataGridTextColumn Header="Value" Width="Auto" Binding="{Binding RecordValue}"/>
+                <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding RecordComment}"/>
+                <DataGridTemplateColumn Header="Edit" Width="60" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}" Command="{Binding EditRecordCommand}">Edit</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
